@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issues / DMFIs -> SBM SQL Query</title>
+</head>
+<body>
+    <h1>Issues / DMFIs -> SBM SQL Query</h1>
+    <textarea id="input" rows="4" cols="50" placeholder="Enter issue IDs here"></textarea>
+    <button onclick="transformIssueIDs()">Transform</button>
+    <h2>Final Query:</h2>
+    <pre id="output"></pre>
+
+    <script>
+        function transformIssueIDs() {
+            const inputText = document.getElementById('input').value;
+            const lines = inputText.split('\n');
+            const transformedLines = [];
+
+            for (let i = 0; i < lines.length; i++) {
+                if (lines[i].trim() === '') continue;
+                const prefix = i === 0 ? "@where " : "";
+                const transformedLine = `${prefix}TS_ISSUEID like '${lines[i].match(/\d+/)[0]}'`;
+                transformedLines.push(transformedLine);
+            }
+
+            const outputText = transformedLines.join('\n');
+            document.getElementById('output').textContent = outputText;
+        }
+    </script>
+</body>
+</html>
